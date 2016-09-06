@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="t0_5000_u30">25</string>
+    <string name="t0_5000_o30">27.5</string>
+    <string name="t5000_99999_u30">30</string>
+    <string name="t5000_99999_o30">32.3</string>
+    <string name="to99999_u30">35</string>
+    <string name="to99999_o30">38.5</string>
+</resources>
