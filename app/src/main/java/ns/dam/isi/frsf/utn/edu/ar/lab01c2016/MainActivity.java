@@ -17,6 +17,16 @@ import android.widget.TextView;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, TextWatcher {
+    private Button calcularButton;
+    private TextView montoCalculadoTextView;
+    private TextView diasTextView;
+    private SeekBar seekBar;
+    private EditText importeET;
+    private EditText emailET;
+    private EditText cuitET;
+    private TextView resultadoTextView;
+
+    @SuppressWarnings({"unchecked", "deprecation"})
     private Spanned fromHtml(String string){
         Spanned result;
 
@@ -52,18 +62,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private Double caluclarInteres() {
-        Double interes = 0.0;
-        Integer capital = Integer.parseInt(String.valueOf(((EditText) findViewById(R.id.importeET)).getText()));
-        Integer plazo = Integer.parseInt(String.valueOf(((TextView) findViewById(R.id.diasTextView)).getText()));
+        Integer capital = Integer.parseInt(String.valueOf(importeET.getText()));
+        Integer plazo = Integer.parseInt(String.valueOf(diasTextView.getText()));
         Double tasa = this.obtenerTasaDeInteres(plazo, capital);
 
-        interes = (double) capital * (Math.pow((1 + tasa / 100),  ((double) plazo / 360.0)) - 1);
+        Double interes = (double) capital * (Math.pow((1 + tasa / 100),  ((double) plazo / 360.0)) - 1);
 
         return (double) Math.round(interes * 100) / 100;
     }
 
     private void cambiarImporteRendimiento(){
-        TextView montoCalculadoTextView = (TextView) findViewById(R.id.montoCalculadoTextView);
         try {
             Double interes = this.caluclarInteres();
             montoCalculadoTextView.setText("$" + interes);
@@ -77,21 +85,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button calcularButton = (Button) findViewById(R.id.calcularButton);
-        calcularButton.setOnClickListener(this);
-        SeekBar seekBar = (SeekBar) findViewById(R.id.diasInversionSeekBar);
-        seekBar.setOnSeekBarChangeListener(this);
-        EditText et = (EditText) findViewById(R.id.importeET);
-        et.addTextChangedListener(this);
+        this.montoCalculadoTextView = (TextView) findViewById(R.id.montoCalculadoTextView);
+        this.resultadoTextView = (TextView) findViewById(R.id.resultadoTextView);
+        this.diasTextView = (TextView) findViewById(R.id.diasTextView);
+        this.emailET = (EditText) findViewById(R.id.emailET);
+        this.cuitET = (EditText) findViewById(R.id.cuitET);
+        this.calcularButton = (Button) findViewById(R.id.calcularButton);
+        this.calcularButton.setOnClickListener(this);
+        this.seekBar = (SeekBar) findViewById(R.id.diasInversionSeekBar);
+        this.seekBar.setOnSeekBarChangeListener(this);
+        this.importeET = (EditText) findViewById(R.id.importeET);
+        this.importeET.addTextChangedListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-        String texto = "";
-        TextView resultadoTextView = (TextView) findViewById(R.id.resultadoTextView);
-        EditText emailET = (EditText) findViewById(R.id.emailET);
-        EditText cuitET = (EditText) findViewById(R.id.cuitET);
-        EditText importeET = (EditText) findViewById(R.id.importeET);
+        String texto;
         Pattern emailPattern = Pattern.compile(".+@.+\\.[a-z]+");
 
         try {
@@ -128,8 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        TextView diasTextView = (TextView) findViewById(R.id.diasTextView);
-        diasTextView.setText((new Integer(progress)).toString());
+        this.diasTextView.setText(Integer.valueOf(progress).toString());
     }
 
     @Override

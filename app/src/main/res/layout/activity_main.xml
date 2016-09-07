@@ -59,7 +59,8 @@
         android:layout_below="@+id/textView3"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/emailET"
-        android:hint="Ingrese su CUIT" />
+        android:hint="Ingrese su CUIT"
+        android:inputType="number" />
 
     <TextView
         android:layout_width="match_parent"
